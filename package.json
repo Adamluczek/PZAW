@@ -1,7 +1,7 @@
 {
   "name": "pzaw",
   "version": "1.0.0",
-  "description": "",
+  "description": "Prosty serwer Node.js do PZAW z obsługą nagłówka /favicon.ico i /",
   "type": "module",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/Adamluczek/PZAW.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["nodejs","server","favicon"],
+  "author": "Adamluk",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Adamluczek/PZAW/issues"
