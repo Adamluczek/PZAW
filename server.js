@@ -9,7 +9,7 @@ const host = "localhost";
 const server = createServer((req, res) => {
   const request_url = new URL(`http://${host}${req.url}`);
   const path = request_url.pathname;
-  console.log(`Request: ${req.method} ${path}`);
+  
 
   handlePath(path, req, res);
   
