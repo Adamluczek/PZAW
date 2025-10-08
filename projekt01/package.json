@@ -1,5 +1,5 @@
 {
-  "name": "pzaw",
+  "name": "pzaw-projekt01",
   "version": "1.0.0",
   "description": "Prosty serwer Node.js do PZAW z obsługą nagłówka /favicon.ico i /",
   "type": "module",
