@@ -1,0 +1,11 @@
+<% - include("head_part.ejs")%>
+    <h1><%=title %></h1>
+    <ul>
+    <% for (let i = 0; i < questions.length; i++) { %>
+      <li>
+        <strong>Pytanie:</strong> <%= questions[i] %><br>
+        <strong>Odpowiedź:</strong> <%= answers[i] %>
+      </li>
+    <% } %>
+  </ul>
+<% - include("foot_part.ejs")%>

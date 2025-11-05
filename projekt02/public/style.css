@@ -1,0 +1,18 @@
+body{
+    background-color: #0b0b0b;
+    color: #FFF;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+.btn{
+    display: inline-block;
+    background-color: #1d428a;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1.2em;
+
+}
+.btn:hover{
+    background-color: #c8102e;
+}
