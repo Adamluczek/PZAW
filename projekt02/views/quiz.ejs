@@ -1,11 +1,22 @@
-<% - include("head_part.ejs")%>
-    <h1><%=title %></h1>
-    <ul>
-    <% for (let i = 0; i < questions.length; i++) { %>
-      <li>
-        <strong>Pytanie:</strong> <%= questions[i] %><br>
-        <strong>Odpowiedź:</strong> <%= answers[i] %>
-      </li>
-    <% } %>
-  </ul>
-<% - include("foot_part.ejs")%>
+<%- include("head_part.ejs")%>
+<h1><%=title %></h1>
+<form action="" method="post">
+  <ol>
+    <% questions.forEach(function(question) { %>
+    <li>
+      <strong><%= question.question %></strong><br />
+      <% answers.forEach(function(answer){ %> <% if(answer.question_id ==
+      question.question_id) { %>
+      <input
+        type="radio"
+        id="<%= answer.answer_id %>"
+        name="question_<%= question.question_id %>"
+        value="<%= answer.answer_id %>"
+      /><label for="<%= answer.answer_id %>"> <%= answer.answer %></label><br />
+      <% } %> <% }); %>
+    </li>
+    <% }); %>
+  </ol>
+  <input type="submit" class="btn" value="Submit Quiz" />
+</form>
+<%- include("foot_part.ejs")%>
