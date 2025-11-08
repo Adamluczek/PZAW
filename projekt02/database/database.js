@@ -36,9 +36,19 @@ function addAnswer(question_id, answer, is_correct) {
   );
   return stmt.run(question_id, answer, is_correct);
 }
+function getCorrectAnswersandQestionId() {
+  const stmt = db.prepare("SELECT question_id, answer_id FROM Answers WHERE is_correct = 1;");
+  return stmt.all();
+}
+function getCorrectAnswers() {
+  const stmt = db.prepare("SELECT answer, question_id FROM Answers WHERE is_correct = 1;");
+  return stmt.all();
+}
 export default {
   showAllQuestions,
   addQuestion,
   addAnswer,
   showAllAnswers,
+  getCorrectAnswersandQestionId,
+  getCorrectAnswers
 };

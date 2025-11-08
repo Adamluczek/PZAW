@@ -35,3 +35,12 @@ li {
 li strong {
   color: #c8102e;
 }
+
+p {
+  font-size: 1.5em;
+  color: #1d428a;
+}
+h3{
+  margin :0px;
+  color:#c8102e
+}

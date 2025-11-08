@@ -1,0 +1,16 @@
+<%- include("head_part.ejs")%>
+
+
+<h1>Twoj wynik to <%= score%>/<%= maxScore%></h1>
+<h2>Poprawne odpowiedzi</h2>
+<% questions.forEach(function(question){ %>
+  <h3><%= question.question %></h3>
+  <% text_answers.forEach(function(text){ %>
+  <% correctAnswers.forEach(function(canswer){ %>
+    <% if(canswer.question_id == question.question_id && question.question_id == text.question_id) { %>
+        <p><%= text.answer %></p>
+      <%}%>
+    <% }); %>
+    <% }); %>
+<% }); %>
+<%- include("foot_part.ejs")%>

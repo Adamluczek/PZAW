@@ -10,8 +10,9 @@
       <input
         type="radio"
         id="<%= answer.answer_id %>"
-        name="question_<%= question.question_id %>"
+        name="<%= question.question_id %>"
         value="<%= answer.answer_id %>"
+        required
       /><label for="<%= answer.answer_id %>"> <%= answer.answer %></label><br />
       <% } %> <% }); %>
     </li>
