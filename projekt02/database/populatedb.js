@@ -23,9 +23,9 @@ const quizData = {
     {
       text: "Który zawodnik zdobył najwięcej tytułów MVP sezonu zasadniczego w historii NBA?",
       answers: [
-        { text: "Bill Russell", isCorrect: 1 },
+        { text: "Bill Russell", isCorrect: 0 },
         { text: "Michael Jordan", isCorrect: 0 },
-        { text: "Kareem Abdul-Jabbar", isCorrect: 0 },
+        { text: "Kareem Abdul-Jabbar", isCorrect: 1 },
         { text: "Magic Johnson", isCorrect: 0 },
       ],
     },

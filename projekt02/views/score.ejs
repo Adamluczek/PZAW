@@ -2,15 +2,24 @@
 
 
 <h1>Twoj wynik to <%= score%>/<%= maxScore%></h1>
+<a href="/userScore?score=<%= score%>&maxScore=<%=maxScore%>" class="btn">Dodaj swoj wynik do bazy użytkowników</a>
 <h2>Poprawne odpowiedzi</h2>
 <% questions.forEach(function(question){ %>
-  <h3><%= question.question %></h3>
   <% text_answers.forEach(function(text){ %>
-  <% correctAnswers.forEach(function(canswer){ %>
-    <% if(canswer.question_id == question.question_id && question.question_id == text.question_id) { %>
+    <% if(question.question_id == text.question_id) { %>
+      <% if(correctQuestions.includes(question.question_id.toString())){ %>
+      <h3 style="color:green"><%= question.question %></h3> 
+      <% } else {%>
+      <h3 style="color:red"><%= question.question %></h3>
+      <% } %>
         <p><%= text.answer %></p>
+        
       <%}%>
+      
     <% }); %>
-    <% }); %>
+    
 <% }); %>
+
+
+
 <%- include("foot_part.ejs")%>

@@ -7,6 +7,7 @@ body {
   text-align: center;
   align-items: center;
 }
+
 .btn {
   display: inline-block;
   background-color: #1d428a;
@@ -14,6 +15,7 @@ body {
   padding: 12px 25px;
   border-radius: 8px;
   font-size: 1.2em;
+  margin: 5px;
 }
 .btn:hover {
   background-color: #c8102e;
@@ -30,6 +32,7 @@ li {
   margin: 10px;
   border-radius: 8px;
   width: 600px;
+  font-size: 1.2em;
 }
 
 li strong {
@@ -43,4 +46,25 @@ p {
 h3{
   margin :0px;
   color:#c8102e
+}
+input[type="text"] {
+  background-color: #c8102e;
+  color:white;
+  margin: 10px;
+}
+input[type="text"]::placeholder {
+  color: white;
+}
+input[type="text"]:focus {
+  background-color: #1d428a;
+}
+#labelName {
+  font-size: 1.2em;
+}
+label{
+  font-size: 1em;
+}
+a
+{
+  text-decoration: none;
 }

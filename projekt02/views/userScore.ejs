@@ -1,0 +1,20 @@
+<%- include("head_part.ejs")%>
+
+<h1><%= title%></h1>
+<h3>Twoj wynik to <%= score%>/<%= maxScore%></h3>
+<form action="/addUserScore" method="post">
+    <label for="username" id="labelName">Nazwa</label>
+    <% if(!saved) { %>
+    <input type="text" id="username" name="username" placeholder="Wpisz swoja nazwe uzytkownika"  required /><br><%}%>
+    <% if(saved) { %>
+    <input type="text" id="username" name="username" value ="<%=username%>" required /><br><%}%>
+    <input type="hidden" name="score" value="<%= score %>"/>
+    <input type="hidden" name="maxScore" value="<%= maxScore %>"/>
+    <% if(!saved) { %>
+    <input type="submit" class='btn'value="Dodaj wynik"/><%}%>
+    
+</form>
+<% if(saved) { %>
+    <p>Wynik zapisany pomyslnie!</p><%} %>
+<a href="/" class="btn">Wróć do strony głównej</a>
+<%- include("foot_part.ejs")%>

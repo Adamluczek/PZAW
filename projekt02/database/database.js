@@ -16,6 +16,12 @@ CREATE TABLE IF NOT EXISTS Answers (
     is_correct INTEGER NOT NULL,
     FOREIGN KEY (question_id) REFERENCES Questions (question_id)
 ) STRICT;
+CREATE TABLE IF NOT EXISTS UserScores (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    score INTEGER NOT NULL,
+    maxScore INTEGER NOT NULL
+) STRICT;
 `);
 
 function showAllQuestions() {
@@ -37,12 +43,22 @@ function addAnswer(question_id, answer, is_correct) {
   return stmt.run(question_id, answer, is_correct);
 }
 function getCorrectAnswersandQestionId() {
-  const stmt = db.prepare("SELECT question_id, answer_id FROM Answers WHERE is_correct = 1;");
+  const stmt = db.prepare(
+    "SELECT question_id, answer_id FROM Answers WHERE is_correct = 1;"
+  );
   return stmt.all();
 }
 function getCorrectAnswers() {
-  const stmt = db.prepare("SELECT answer, question_id FROM Answers WHERE is_correct = 1;");
+  const stmt = db.prepare(
+    "SELECT answer, question_id FROM Answers WHERE is_correct = 1;"
+  );
   return stmt.all();
+}
+function addUserScore(username, score, maxScore) {
+  const stmt = db.prepare(
+    "INSERT INTO UserScores (username, score, maxScore) VALUES (?, ?, ?);"
+  );
+  return stmt.run(username, score, maxScore);
 }
 export default {
   showAllQuestions,
@@ -50,5 +66,6 @@ export default {
   addAnswer,
   showAllAnswers,
   getCorrectAnswersandQestionId,
-  getCorrectAnswers
+  getCorrectAnswers,
+  addUserScore,
 };
