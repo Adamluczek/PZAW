@@ -6,7 +6,7 @@ const PORT = 8000;
 APP.set("view engine", "ejs");
 APP.use(express.static("public"));
 APP.use(express.urlencoded());
-const mainSite = "public/index.html";
+
 APP.get("/quiz", (req, res) => {
   res.render("quiz", {
     title: "Quiz",
@@ -14,9 +14,7 @@ APP.get("/quiz", (req, res) => {
     answers: data.showAllAnswers(),
   });
 });
-APP.get("/", (req, res) => {
-  res.end(mainSite);
-});
+
 APP.post("/quiz", (req, res) => {
   const userAnswers = req.body;
   const correctAnswers = data.getCorrectAnswersandQestionId();
