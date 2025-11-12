@@ -1,0 +1,19 @@
+<%- include("head_part.ejs")%>
+    <h1>Witaj w grze</h1>
+    <p>Spawdzimy twoja wiedzę na tematy wokół NBA</p>
+
+    <a href="/quiz" class="btn">Rozpocznij grę</a>
+
+
+    <h3 style="margin:10px">Najlepsze wyniki 10 użytkowników</h3>
+
+        
+
+    
+    <ol>
+           <% topUsers.forEach(function(user) { %>
+        <li><%= user.username %>: <%= user.score %>/<%= user.maxScore %></li>
+         <%})%>
+    </ol>
+   
+<%- include("foot_part.ejs")%>

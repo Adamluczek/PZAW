@@ -60,6 +60,10 @@ function addUserScore(username, score, maxScore) {
   );
   return stmt.run(username, score, maxScore);
 }
+function topTenUsers(){
+  const stmt = db.prepare("SELECT username, score, maxScore FROM UserScores ORDER BY score * 1.0 / maxScore DESC LIMIT 10;");
+  return stmt.all();
+}
 export default {
   showAllQuestions,
   addQuestion,
@@ -68,4 +72,5 @@ export default {
   getCorrectAnswersandQestionId,
   getCorrectAnswers,
   addUserScore,
+  topTenUsers
 };

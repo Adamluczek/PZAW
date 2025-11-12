@@ -94,11 +94,38 @@ const quizData = {
     },
   ],
 };
+const testUsers = [
+  
+  {name: "test",
+  score:10,
+  maxScore: 10},
+  {
+  name: "test2",
+  score:5,
+  maxScore: 10},
+  
+  {
+  name: "test3",
+  score:3,
+  maxScore: 10},
+   {
+  name: "test4",
+  score:8,
+  maxScore: 10},
+   {
+  name: "test5",
+  score:9,
+  maxScore: 10},
 
+
+]
 quizData.questions.forEach((question) => {
   const result = data.addQuestion(question.text);
   const question_id = result.lastInsertRowid;
   question.answers.forEach((answer) => {
     data.addAnswer(question_id, answer.text, answer.isCorrect);
   });
+});
+testUsers.forEach(user=>{
+  data.addUserScore(user.name, user.score, user.maxScore)
 });
