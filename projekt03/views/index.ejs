@@ -10,11 +10,12 @@
         <% usersScores.forEach(function(user) { %>
             <% userScoreIdsSession.forEach(function(id) { %>
                 <% if (user.user_id == id) { %>
-          <li>
-            <%= user.username %>: <%= user.score %>/<%= user.maxScore %>
+          <li class="user">
+            <div style="width: 50%;">
+            <%= user.username %>: <%= user.score %>/<%= user.maxScore %></div>
             <a href="/userScore/<%= user.user_id %>/edit" class="btn">Edytuj</a>
 
-            <form method="post" action="/userScore/<%= user.user_id %>/delete" style="display:inline;">
+            <form method="post" action="/userScore/<%= user.user_id %>/delete">
               <button type="submit" class="btn">Usuń</button>
             </form>
           </li>

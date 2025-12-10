@@ -86,8 +86,10 @@ app.post("/addUserScore", (req, res) => {
   const score = req.body.score;
   const maxScore = req.body.maxScore;
   const id = data.addUserScore(username, score, maxScore);
-  console.log("New user score id:", id);
   
+  if (!req.session.userScoreIds) {
+    req.session.userScoreIds = [];
+  }
   req.session.userScoreIds.push(id.lastInsertRowid);
   res.render("userScore", {
     title: "User Score",
@@ -138,7 +140,7 @@ const index = req.session.userScoreIds.indexOf(scoreId);
   if (index > -1) {
     req.session.userScoreIds.splice(index, 1);
   }
-  console.log(req.session.userScoreIds);
+  
   res.redirect("/");
 });
 app.listen(PORT, () => {

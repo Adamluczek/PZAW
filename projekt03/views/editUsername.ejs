@@ -3,7 +3,7 @@
 <h1>Edytuj nazwe</h1>
 <form action="/userScore/<%= userScore.user_id %>/edit" method="post">
     <label for="username"><%= userScore.username %></label>
-    <input type="text" id="username" name="username" value ="<%=userScore.username%>" required />
+    <input type="text" id="username" name="username" value ="<%=userScore.username%>" maxlength="14"  required/>
     <button type="submit" class="btn">Zapisz</button>
     <a href="/" class="btn">Anuluj</a>
 
