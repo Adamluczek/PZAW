@@ -1,0 +1,35 @@
+<%- include("head_part.ejs")%>
+    <h1>Witaj w grze</h1>
+    <p>Sprawdzimy twoja wiedzę na tematy wokół NBA</p>
+    <a href="/quiz" class="btn">Rozpocznij grę</a>
+    
+    <h3 style="margin:10px">Twoje wyniki</h3>
+    <p>Będą one widocznę przez niecałe 15 minut</p>
+    <% if (userScoreIdsSession.length > 0) { %>
+      <ol>
+        <% usersScores.forEach(function(user) { %>
+            <% userScoreIdsSession.forEach(function(id) { %>
+                <% if (user.user_id == id) { %>
+          <li>
+            <%= user.username %>: <%= user.score %>/<%= user.maxScore %>
+            <a href="/userScore/<%= user.user_id %>/edit" class="btn">Edytuj</a>
+
+            <form method="post" action="/userScore/<%= user.user_id %>/delete" style="display:inline;">
+              <button type="submit" class="btn">Usuń</button>
+            </form>
+          </li>
+          <% }%>
+        <% }) %>
+        <% }) %>
+      </ol>
+    <% } else { %>
+      <p>Nie masz jeszcze żadnych wyników.</p> <a href="/quiz" class="btn">Zacznij grę!</a>
+    <% } %>
+    
+    <h3 style="margin:10px">Najlepsze wyniki 10 użytkowników</h3>
+    <ol>
+           <% topUsers.forEach(function(user) { %>
+        <li><%= user.username %>: <%= user.score %>/<%= user.maxScore %></li>
+         <%})%>
+    </ol>
+<%- include("foot_part.ejs")%>

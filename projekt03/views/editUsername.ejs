@@ -1,0 +1,23 @@
+<%- include("head_part.ejs")%>
+
+<h1>Edytuj nazwe</h1>
+<form action="/userScore/<%= userScore.user_id %>/edit" method="post">
+    <label for="username"><%= userScore.username %></label>
+    <input type="text" id="username" name="username" value ="<%=userScore.username%>" required />
+    <button type="submit" class="btn">Zapisz</button>
+    <a href="/" class="btn">Anuluj</a>
+
+
+
+</form>
+
+
+
+
+
+
+
+
+
+
+<%- include("foot_part.ejs")%>
