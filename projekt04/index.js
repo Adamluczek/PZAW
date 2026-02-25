@@ -145,6 +145,12 @@ if (!req.session.userScoreIds || !req.session.userScoreIds.includes(scoreId)) {
   data.deleteUserScoreById(scoreId);
 
 
+
+app.get("/signup", async (req, res)=>{
+  res.render("register")
+});
+
+
 const index = req.session.userScoreIds.indexOf(scoreId);
   if (index > -1) {
     req.session.userScoreIds.splice(index, 1);
