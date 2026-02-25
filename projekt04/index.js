@@ -17,16 +17,15 @@ app.use(
     }),
     secret:'thisisasecretkey',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: { 
       sameSite: "lax",
       httpOnly: true,
       secure: false,
-      
       maxAge: 1000 * 60 * 60 }, // 60 minut
   }));
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   if (!req.session.userScoreIds) {
     req.session.userScoreIds = [];
   }
@@ -40,7 +39,7 @@ app.get("/", (req, res) => {
     );
 });
 
-app.get("/quiz", (req, res) => {
+app.get("/quiz", async (req, res) => {
   res.render("quiz", {
     title: "Quiz",
     questions: data.showAllQuestions(),
@@ -48,7 +47,7 @@ app.get("/quiz", (req, res) => {
   });
 });
 
-app.post("/quiz", (req, res) => {
+app.post("/quiz", async (req, res) => {
   const userAnswers = req.body;
   const correctAnswers = data.getCorrectAnswersandQestionId();
   const correctObject = {};
@@ -91,7 +90,7 @@ app.get("/userScore", (req, res) => {
     });
   }
 });
-app.post("/addUserScore", (req, res) => {
+app.post("/addUserScore", async (req, res) => {
   const username = req.body.username;
   const score = req.body.score;
   const maxScore = req.body.maxScore;
@@ -110,7 +109,7 @@ app.post("/addUserScore", (req, res) => {
   });
 });
 
-app.get("/userScore/:id/edit", (req, res) => {
+app.get("/userScore/:id/edit", async (req, res) => {
   const scoreId = parseInt(req.params.id);
   if (!req.session.userScoreIds || !req.session.userScoreIds.includes(scoreId)) {
     return res.status(403).send("Nie masz dostępu do edycji tego wyniku");
@@ -126,7 +125,7 @@ app.get("/userScore/:id/edit", (req, res) => {
   });
 
 });
-app.post("/userScore/:id/edit", (req, res) => {
+app.post("/userScore/:id/edit", async (req, res) => {
   const scoreId = parseInt(req.params.id);
   if (!req.session.userScoreIds || !req.session.userScoreIds.includes(scoreId)) {
     return res.status(403).send("Nie masz dostępu do tego wyniku");
@@ -138,7 +137,7 @@ app.post("/userScore/:id/edit", (req, res) => {
   data.updateUserScoreUsername(scoreId, newUsername);
   res.redirect("/");
 });
-app.post("/userScore/:id/delete", (req, res) => {
+app.post("/userScore/:id/delete", async (req, res) => {
 const scoreId = parseInt(req.params.id);
 if (!req.session.userScoreIds || !req.session.userScoreIds.includes(scoreId)) {
     return res.status(403).send("Nie masz dostępu do tego wyniku");
