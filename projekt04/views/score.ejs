@@ -1,0 +1,25 @@
+<%- include("head_part.ejs")%>
+
+
+<h1>Twoj wynik to <%= score%>/<%= maxScore%></h1>
+<a href="/userScore" class="btn">Dodaj swoj wynik do bazy użytkowników</a>
+<h2>Poprawne odpowiedzi</h2>
+<% questions.forEach(function(question){ %>
+  <% text_answers.forEach(function(text){ %>
+    <% if(question.question_id == text.question_id) { %>
+      <% if(correctQuestions.includes(question.question_id.toString())){ %>
+      <h3 style="color:green"><%= question.question %></h3> 
+      <% } else {%>
+      <h3 style="color:red"><%= question.question %></h3>
+      <% } %>
+        <p><%= text.answer %></p>
+        
+      <%}%>
+      
+    <% }); %>
+    
+<% }); %>
+
+
+
+<%- include("foot_part.ejs")%>
