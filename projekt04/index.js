@@ -157,8 +157,30 @@ app.get("/signup", async (req, res)=>{
   res.render("register", {
     title: "Rejestracja"
   });
-  
+
 });
+
+app.post("/signup", async (req, res) => {
+  const { email, username, password, repeatPassword } = req.body;
+  try {
+    if (!email || !username || !password || !repeatPassword) {
+      return res.status(400).json({ error: "Wszystkie pola są wymagane" });
+    }
+
+    if (password !== repeatPassword) {
+      return res.status(400).json({ error: "Hasła nie są identyczne" });
+    }
+    return res.status(201).json({
+      success: true,
+      message: "Użytkownik zarejestrowany pomyślnie",});
+  }
+  
+  catch (err) {
+    console.error("Błąd podczas rejestracji użytkownika:", err);
+    return res.status(500).json({ error: "Błąd serwera" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server on http://localhost:${PORT}`);
 });

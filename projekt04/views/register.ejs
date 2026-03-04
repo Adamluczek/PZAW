@@ -1,10 +1,15 @@
 <%- include("head_part.ejs")%>
 
-<form action="/signup" method="post">
-    <input type="email" name="email" id="">
-    <input type="password" name="password id="">
-    <input type="password" name="repeatPassword" id="">
-    <input type="submit" value="Zarejestruj">
+<form action="/signup" method="post" id="rejestracja">
+    <label for="gmail">Konto Email</label>
+    <input type="email" name="email" id="gmail">
+    <label for="haslo">Hasło</label>
+    <input type="password" name="password" id="haslo">
+    <label for="powtorzHaslo">Powtórz hasło</label>
+    <input type="password" name="repeatPassword" id="powtorzHaslo">
+    <label for="nazwa">Nazwa wyświetlana</label>
+    <input type="text" name="username" id="nazwa">
+    <button type="submit" class="btn">Zarejestruj</button>
 </form>
 
 <%- include("foot_part.ejs")%>

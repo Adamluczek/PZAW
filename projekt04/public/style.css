@@ -49,15 +49,15 @@ h3{
   margin :0px;
   color:#c8102e
 }
-input[type="text"] {
+input {
   background-color: #c8102e;
   color:white;
-  margin: 10px;
+  
 }
-input[type="text"]::placeholder {
+input::placeholder {
   color: white;
 }
-input[type="text"]:focus {
+input:focus {
   background-color: #1d428a;
 }
 #labelName {
@@ -74,4 +74,17 @@ a
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+
+#rejestracja {
+    display: grid;
+    grid-template-columns: 150px 250px; /* szerokość label | input */
+    gap: 10px 15px; /* odstępy */
+    align-items: center;
+}
+
+#rejestracja  button[type="submit"] {
+    grid-column: 2; /* przycisk pod inputami */
+    
 }
