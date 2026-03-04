@@ -2,7 +2,28 @@
 
 <main>
   <h1><%= title %></h1>
-  <p>What should I do here?</p>
+  <form method="post" action="/settings/manage-cookies">
+    <fieldset>
+      <legend>Twoja zgoda na cookies</legend>
+      <label>
+        <input type="radio" name="action" value="accept" <%= consent === 'true' || consent === true ? 'checked' : '' %> />
+        Akceptuję cookies
+      </label>
+      <br />
+      <label>
+        <input type="radio" name="action" value="decline" <%= consent === 'false' || consent === false ? 'checked' : '' %> />
+        Cofam zgodę (usuń nie-niezbędne cookies)
+      </label>
+    </fieldset>
+    <p>
+      <button type="submit">Zapisz ustawienia</button>
+    </p>
+  </form>
+
+  <form method="post" action="/settings/manage-cookies?next=/settings/manage-cookies">
+    <input type="hidden" name="action" value="clear" />
+    <button type="submit">Usuń nie-niezbędne cookies teraz</button>
+  </form>
 </main>
 
 <%- include("foot.partial.ejs") %>

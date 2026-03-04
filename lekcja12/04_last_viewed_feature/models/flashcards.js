@@ -55,8 +55,7 @@ const db_ops = {
 };
 
 export function getCategorySummaries() {
-  var categories = db_ops.get_categories.all();
-  return categories;
+  return db.prepare("SELECT id, name FROM fc_categories;").all();
 }
 
 export function getCategorySummary(category_id) {
