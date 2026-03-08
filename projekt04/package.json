@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node --watch --env-file .env ./index.js",
     "populate_db": "node database/populatedb.js",
-    "generate_env": "bash utils/generate_env.sh > utils/.env",
+    "generate_env": "utils/generate_env.sh > .env",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,6 +16,7 @@
   "dependencies": {
     "argon2": "^0.44.0",
     "connect-sqlite3": "^0.9.16",
+    "dotenv": "^17.3.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.2",

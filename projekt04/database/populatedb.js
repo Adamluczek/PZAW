@@ -94,38 +94,53 @@ const quizData = {
     },
   ],
 };
-const testUsers = [
-  
-  {name: "test",
-  score:10,
-  maxScore: 10},
+const usersScores = [
+  { name: 1, score: 10, maxScore: 10 },
   {
-  name: "test2",
-  score:5,
-  maxScore: 10},
-  
+    name: 2,
+    score: 5,
+    maxScore: 10,
+  },
+
   {
-  name: "test3",
-  score:3,
-  maxScore: 10},
-   {
-  name: "test4",
-  score:8,
-  maxScore: 10},
-   {
-  name: "test5",
-  score:9,
-  maxScore: 10},
+    name: 3,
+    score: 3,
+    maxScore: 10,
+  },
+  {
+    name: 4,
+    score: 8,
+    maxScore: 10,
+  },
+  {
+    name: 5,
+    score: 9,
+    maxScore: 10,
+  },
+];
+const users = [
+  { username: "user1", email: "u1@test.pl", password: "test123" },
+  { username: "user2", email: "u2@test.pl", password: "test124" },
+  { username: "user3", email: "u3@test.pl", password: "test125" },
+  { username: "user4", email: "u4@test.pl", password: "test126" },
+  { username: "user5", email: "u5@test.pl", password: "test127" },
+];
 
-
-]
-quizData.questions.forEach((question) => {
-  const result = data.addQuestion(question.text);
-  const question_id = result.lastInsertRowid;
-  question.answers.forEach((answer) => {
-    data.addAnswer(question_id, answer.text, answer.isCorrect);
+(async () => {
+  quizData.questions.forEach((question) => {
+    const result = data.addQuestion(question.text);
+    const question_id = result.lastInsertRowid;
+    question.answers.forEach((answer) => {
+      data.addAnswer(question_id, answer.text, answer.isCorrect);
+    });
   });
-});
-testUsers.forEach(user=>{
-  data.addUserScore(user.name, user.score, user.maxScore)
-});
+
+  for (const u of users) {
+    await data.createUser(u.username, u.email, u.password);
+    
+  }
+
+  usersScores.forEach((user) => {
+    data.addUserScore(user.name, user.score, user.maxScore);
+  });
+})();

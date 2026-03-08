@@ -1,0 +1,6 @@
+rejestracja 
+dane destowe - zrobione
+logowanie
+naprawa dodawania wyników(tylko zalogowani mogą)
+wylogowanie
+stworzenie admina 
