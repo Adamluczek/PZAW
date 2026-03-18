@@ -1,20 +1,34 @@
 <%- include("head_part.ejs")%>
 
-<h1><%= title%></h1>
-<h3>Twoj wynik to <%= score%>/<%= maxScore%></h3>
+<h1><%= title %></h1>
+<h3>Twój wynik to <%= score %>/<%= maxScore %></h3>
+
 <form action="/addUserScore" method="post">
-    <label for="username" id="labelName">Nazwa</label>
-    <% if(!saved) { %>
-    <input type="text" id="username" name="username" placeholder="Wpisz swoja nazwe uzytkownika" maxlength="14"  required /><br><%}%>
-    <% if(saved) { %>
-    <input type="text" id="username" name="username" value ="<%=username%>" required /><br><%}%>
+    <!-- Jeśli użytkownik jest zalogowany (mamy sessionUsername), ukrywamy pole tekstowe -->
+    <% if (username) { %>
+        <p>Zapisujesz wynik jako: <strong><%= username %></strong></p>
+        <input type="hidden" name="username" value="<%= username %>" />
+    <% } else { %>
+        <!-- Jeśli gość (brak sesji), a wynik nie jest jeszcze zapisany, pokazujemy pole -->
+        <% if (!saved) { %>
+            <label for="username" id="labelName">Nazwa</label>
+            <input type="text" id="username" name="username" placeholder="Wpisz swoją nazwę" maxlength="14" required /><br>
+        <% } %>
+    <% } %>
+
+    <!-- Ukryte pola z punktacją -->
     <input type="hidden" name="score" value="<%= score %>"/>
     <input type="hidden" name="maxScore" value="<%= maxScore %>"/>
-    <% if(!saved) { %>
-    <button type="submit" class="btn">Dodaj wynik</button><%}%>
-    
+
+    <!-- Przycisk pokazujemy tylko, gdy wynik nie jest jeszcze zapisany -->
+    <% if (!saved) { %>
+        <button type="submit" class="btn">Dodaj wynik</button>
+    <% } %>
 </form>
-<% if(saved) { %>
-    <p>Wynik zapisany pomyslnie!</p><%} %>
+
+<% if (saved) { %>
+    <p>Wynik zapisany pomyślnie!</p>
+<% } %>
+
 <a href="/" class="btn">Wróć do strony głównej</a>
 <%- include("foot_part.ejs")%>

@@ -25,6 +25,14 @@ app.use(
       maxAge: 1000 * 60 * 60 }, // 60 minut
   }));
 
+  app.use((req, res, next) => {
+
+  res.locals.user = req.session.userID || null;
+  res.locals.username = req.session.name || null;
+  
+
+  next(); 
+});
 app.get("/", async (req, res) => {
   if (!req.session.userScoreIds) {
     req.session.userScoreIds = [];
@@ -91,10 +99,11 @@ app.get("/userScore", (req, res) => {
   }
 });
 app.post("/addUserScore", async (req, res) => {
-  const username = req.body.username;
+  const user = req.session.userID
+  const username = req.session.name
   const score = req.body.score;
   const maxScore = req.body.maxScore;
-  const id = data.addUserScore(username, score, maxScore);
+  const id = data.addUserScore(user, score, maxScore);
   
   if (!req.session.userScoreIds) {
     req.session.userScoreIds = [];
@@ -162,22 +171,35 @@ app.get("/signup", async (req, res)=>{
 
 app.post("/signup", async (req, res) => {
   const { email, username, password, repeatPassword } = req.body;
+  
   try {
     if (!email || !username || !password || !repeatPassword) {
-      return res.status(400).json({ error: "Wszystkie pola są wymagane" });
+
+      return res.status(400).send("Wszystkie pola są wymagane");
     }
 
     if (password !== repeatPassword) {
-      return res.status(400).json({ error: "Hasła nie są identyczne" });
+      return res.status(400).send("Hasła nie są identyczne");
     }
-    return res.status(201).json({
-      success: true,
-      message: "Użytkownik zarejestrowany pomyślnie",});
-  }
-  
-  catch (err) {
-    console.error("Błąd podczas rejestracji użytkownika:", err);
-    return res.status(500).json({ error: "Błąd serwera" });
+
+    const NEW_USER = await data.createUser(username, email, password);
+
+
+    if (!NEW_USER) {
+      return res.status(400).send("Nie udało się utworzyć konta");
+    }
+
+    const { user_id, username: returnedUsername } = NEW_USER;
+    req.session.userID = user_id;
+    req.session.name = returnedUsername;
+
+    return res.redirect("/"); 
+
+  } catch (err) {
+    console.error("Błąd podczas rejestracji:", err);
+    
+
+    return res.status(500).send("Błąd serwera");
   }
 });
 

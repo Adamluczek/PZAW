@@ -78,7 +78,7 @@ const prepared_queries = {
   ),
 
   create_user: db.prepare(
-    "INSERT INTO Users (username, email,  password, created_at) VALUES (?,?, ?, ?) RETURNING user_id;",
+    "INSERT INTO Users (username, email,  password, created_at) VALUES (?,?, ?, ?) RETURNING user_id, username;",
   ),
   get_user: db.prepare(
     "SELECT user_id, email username, created_at FROM Users WHERE user_id = ?;",
@@ -132,7 +132,7 @@ function deleteUserScoreById(userId) {
 
 async function createUser(username, email, password) {
   let existing_user = prepared_queries.find_by_username.get(username);
-
+  
   if (existing_user != null) {
     return null;
   }
