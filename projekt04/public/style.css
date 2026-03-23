@@ -20,8 +20,12 @@ body {
 .btn:hover {
   background-color: #c8102e;
 }
-button{
-  border:none;
+.btn-small {
+  padding: 7px 14px;
+  font-size: 0.9em;
+}
+button {
+  border: none;
 }
 ol {
   list-style: none;
@@ -45,14 +49,13 @@ p {
   font-size: 1.5em;
   color: #1d428a;
 }
-h3{
-  margin :0px;
-  color:#c8102e
+h3 {
+  margin: 0px;
+  color: #c8102e;
 }
 input {
   background-color: #c8102e;
-  color:white;
-  
+  color: white;
 }
 input::placeholder {
   color: white;
@@ -63,28 +66,33 @@ input:focus {
 #labelName {
   font-size: 1.2em;
 }
-label{
+label {
   font-size: 1em;
 }
-a
-{
+a {
   text-decoration: none;
 }
-.user{
+.user {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-
-#rejestracja {
-    display: grid;
-    grid-template-columns: 150px 250px; /* szerokość label | input */
-    gap: 10px 15px; /* odstępy */
-    align-items: center;
+.auth-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-#rejestracja  button[type="submit"] {
-    grid-column: 2; /* przycisk pod inputami */
-    
+#rejestracja {
+  display: grid;
+  grid-template-columns: 150px 250px; 
+  gap: 10px 15px; 
+  align-items: center;
+}
+
+#rejestracja button[type="submit"] {
+  grid-column: 2; 
 }

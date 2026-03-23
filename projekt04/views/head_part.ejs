@@ -7,7 +7,16 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <% if (!user) { %>
-    <a href="/signup">rejestracja</a><% } %>
-  </body>
-</html>
+    <div class="auth-actions">
+      <% if (!user) { %>
+        <a href="/signup" class="btn btn-small">Rejestracja</a>
+        <a href="/login" class="btn btn-small">Logowanie</a>
+      <% } else { %>
+        <% if (isAdmin) { %>
+          <a href="/admin" class="btn btn-small" style="background-color: #c8102e;">Panel Admina</a>
+        <% } %>
+        <form action="/logout" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-small">Wyloguj</button>
+        </form>
+      <% } %>
+    </div>
