@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS Answers (
   username TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
   password TEXT,
+  Admin INTEGER DEFAULT 0,
   created_at INTEGER
 
 )STRICT;
@@ -62,32 +63,42 @@ const prepared_queries = {
   ),
 
   add_user_score: db.prepare(
-    "INSERT INTO UserScores (user_id, score, maxScore) VALUES (?, ?, ?) RETURNING id;",
+    "INSERT INTO UserScores (user_id, score, maxScore) VALUES (?, ?, ?);",
   ),
 
   get_user_score_by_id: db.prepare(
-    "SELECT * FROM UserScores WHERE user_id = ?;",
+    "SELECT UserScores.id, UserScores.user_id, UserScores.score, UserScores.maxScore, Users.username FROM UserScores JOIN Users ON Users.user_id = UserScores.user_id WHERE UserScores.user_id = ? ORDER BY UserScores.id DESC;",
   ),
 
   update_user_score_username: db.prepare(
     "UPDATE Users SET username = ? WHERE user_id = ?;",
   ),
 
-  delete_user_score_by_id: db.prepare(
-    "DELETE FROM UserScores WHERE user_id = ?;",
-  ),
+  delete_user_score_by_id: db.prepare("DELETE FROM UserScores WHERE id = ?;"),
 
   create_user: db.prepare(
-    "INSERT INTO Users (username, email,  password, created_at) VALUES (?,?, ?, ?) RETURNING user_id, username;",
+    "INSERT INTO Users (username, email,  password, created_at, Admin) VALUES (?,?, ?, ?, ?) RETURNING user_id, username;",
   ),
   get_user: db.prepare(
-    "SELECT user_id, email username, created_at FROM Users WHERE user_id = ?;",
+    "SELECT user_id, email, username, created_at FROM Users WHERE user_id = ?;",
   ),
   find_by_username: db.prepare(
     "SELECT user_id, username, created_at FROM Users WHERE username = ?;",
   ),
   get_auth_data: db.prepare(
     "SELECT user_id, password FROM Users WHERE email = ?;",
+  ),
+
+  get_score_by_id: db.prepare(
+    "SELECT UserScores.id, UserScores.user_id, UserScores.score, UserScores.maxScore, Users.username FROM UserScores JOIN Users ON Users.user_id = UserScores.user_id WHERE UserScores.id = ?;",
+  ),
+
+  get_all_scores_with_details: db.prepare(
+    "SELECT UserScores.id, UserScores.user_id, UserScores.score, UserScores.maxScore, Users.username FROM UserScores JOIN Users ON Users.user_id = UserScores.user_id ORDER BY UserScores.id DESC;",
+  ),
+
+  get_user_full: db.prepare(
+    "SELECT user_id, username, email, Admin FROM Users WHERE user_id = ?;",
   ),
 };
 function showAllQuestions() {
@@ -121,7 +132,7 @@ function getUsersScores() {
   return prepared_queries.get_user_scores.all();
 }
 function getUserScoresById(userID) {
-  return prepared_queries.get_user_score_by_id.get(userID);
+  return prepared_queries.get_user_score_by_id.all(userID);
 }
 function updateUserScoreUsername(userId, newUsername) {
   return prepared_queries.update_user_score_username.run(newUsername, userId);
@@ -130,23 +141,29 @@ function deleteUserScoreById(userId) {
   return prepared_queries.delete_user_score_by_id.run(userId);
 }
 
-async function createUser(username, email, password) {
+async function createUser(username, email, password, admin = 0) {
   let existing_user = prepared_queries.find_by_username.get(username);
-  
+
   if (existing_user != null) {
     return null;
   }
   let createdAt = Date.now();
   let passhash = await argon2.hash(password, HASH_PARAMS);
 
-  return prepared_queries.create_user.get(username, email, passhash, createdAt);
+  return prepared_queries.create_user.get(
+    username,
+    email,
+    passhash,
+    createdAt,
+    admin,
+  );
 }
 
 async function validatePassword(email, password) {
   let auth_data = prepared_queries.get_auth_data.get(email);
   if (auth_data != null) {
-    if (await argon2.verify(auth_data.passhash, password, HASH_PARAMS)) {
-      return auth_data.id;
+    if (await argon2.verify(auth_data.password, password, HASH_PARAMS)) {
+      return auth_data.user_id;
     }
   }
   return null;
@@ -154,6 +171,18 @@ async function validatePassword(email, password) {
 
 function getUser(user_id) {
   return prepared_queries.get_user.get(user_id);
+}
+
+function getScoreById(scoreId) {
+  return prepared_queries.get_score_by_id.get(scoreId);
+}
+
+function getAllScoresWithDetails() {
+  return prepared_queries.get_all_scores_with_details.all();
+}
+
+function getUserFull(user_id) {
+  return prepared_queries.get_user_full.get(user_id);
 }
 
 export default {
@@ -172,4 +201,7 @@ export default {
   createUser,
   validatePassword,
   getUser,
+  getScoreById,
+  getAllScoresWithDetails,
+  getUserFull,
 };

@@ -1,5 +1,9 @@
 import data from "./database.js";
 
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "adminpassword";
+
 const quizData = {
   questions: [
     {
@@ -143,4 +147,12 @@ const users = [
   usersScores.forEach((user) => {
     data.addUserScore(user.name, user.score, user.maxScore);
   });
+
+  if (!process.env.ADMIN_PASSWORD) {
+    console.warn(
+      "ADMIN_PASSWORD is not set in .env. Using fallback admin password.",
+    );
+  }
+
+  await data.createUser(ADMIN_USERNAME, ADMIN_EMAIL, ADMIN_PASSWORD, 1);
 })();
