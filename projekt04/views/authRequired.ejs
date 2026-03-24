@@ -1,0 +1,12 @@
+<%- include("head_part.ejs")%>
+
+<h2>Aby zapisac wynik, musisz miec konto i byc zalogowany.</h2>
+<p>Twoj wynik: <%= score %>/<%= maxScore %></p>
+
+<div class="auth-required-actions">
+  <a href="/signup" class="btn">Zarejestruj sie</a>
+  <a href="/login" class="btn">Zaloguj sie</a>
+  <a href="/" class="btn">Powrot do strony glownej</a>
+</div>
+
+<%- include("foot_part.ejs")%>

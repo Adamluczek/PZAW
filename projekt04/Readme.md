@@ -1,17 +1,39 @@
-Projekt realizuje prosty serwer HTTP stworzony w Node.js z wykorzystaniem frameworka express i silnika szablonów EJS.
-Tematem projektu jest aplikacja quizowa o wiedzy w dziedzinie NBA.
-Użytkownik odpowiada na pytania po czym może dodać swój wynik do bnazy danych
-Przez 15 minut od wejścia na strone ma on możliwość edycj swojej nazy przy wyniku lub kompletnego usunięcia 
+Projekt realizuje prosty serwer HTTP stworzony w Node.js z wykorzystaniem frameworka Express i silnika szablonow EJS.
+Tematem projektu jest aplikacja quizowa o wiedzy z dziedziny NBA.
 
-Aby uruchomć projekt:
-1. Sklonowanie repozytorium i przejscie do folderu z quizem
+Aby uruchomic projekt:
+
+1. Sklonuj repozytorium i przejdz do folderu projektu:
+
+w terminalu 
 git clone https://github.com/Adamluczek/PZAW.git
-cd projekt03
-2. Zainstalowanie zależności 
+cd projekt04
+
+
+2. Zainstaluj zaleznosci:
+
+w terminalu 
 npm install
-3. Stworzenie i zapełnienie bazy danych 
-node database/populatedb.js
-4. Uruchomienie serwera 
-node index.js
-5. Otwarcie aplikacji w przeglądarce
+
+
+3. Uruchom skrypt `.sh` do wygenerowania pliku `.env` (wymagane):
+
+w terminalu 
+npm run generate_env
+
+
+4. Stworz i zapelnij baze danych:
+
+w terminalu 
+npm run populate_db
+
+
+5. Uruchom serwer:
+
+w terminalu 
+npm run dev
+
+
+6. Otworz aplikacje w przegladarce:
+
 http://localhost:8000
