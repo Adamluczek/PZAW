@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Answers (
 ) STRICT;
  CREATE TABLE IF NOT EXISTS Users(
   user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT NOT NULL,
+  username TEXT NOT NULL UNIQUE,
   email TEXT NOT NULL UNIQUE,
   password TEXT,
   Admin INTEGER DEFAULT 0,
@@ -85,6 +85,9 @@ const prepared_queries = {
   find_by_username: db.prepare(
     "SELECT user_id, username, created_at FROM Users WHERE username = ?;",
   ),
+  find_by_email: db.prepare(
+    "SELECT user_id, email, created_at FROM Users WHERE email = ?;",
+  ),
   get_auth_data: db.prepare(
     "SELECT user_id, password FROM Users WHERE email = ?;",
   ),
@@ -143,8 +146,9 @@ function deleteUserScoreById(userId) {
 
 async function createUser(username, email, password, admin = 0) {
   let existing_user = prepared_queries.find_by_username.get(username);
+  let existing_email = prepared_queries.find_by_email.get(email);
 
-  if (existing_user != null) {
+  if (existing_user != null || existing_email != null) {
     return null;
   }
   let createdAt = Date.now();

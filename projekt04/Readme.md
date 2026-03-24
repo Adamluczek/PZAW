@@ -1,6 +1,8 @@
 Projekt realizuje prosty serwer HTTP stworzony w Node.js z wykorzystaniem frameworka Express i silnika szablonow EJS.
 Tematem projektu jest aplikacja quizowa o wiedzy z dziedziny NBA.
 
+Logowanie odbywa sie za pomoca unikatowego loginu (email) i hasla.
+
 Aby uruchomic projekt:
 
 1. Sklonuj repozytorium i przejdz do folderu projektu:
@@ -37,3 +39,13 @@ npm run dev
 6. Otworz aplikacje w przegladarce:
 
 http://localhost:8000
+
+7. Konto administratora:
+
+Konto administratora jest tworzone podczas uruchamiania `npm run populate_db`.
+Dane logowania admina sa pobierane z pliku `.env`:
+- `ADMIN_USERNAME`
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
+
+Wartosci te sa generowane przez skrypt `npm run generate_env`.

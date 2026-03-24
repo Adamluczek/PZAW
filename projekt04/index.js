@@ -227,7 +227,9 @@ app.post("/signup", async (req, res) => {
     const NEW_USER = await data.createUser(username, email, password);
 
     if (!NEW_USER) {
-      return res.status(400).send("Nie udało się utworzyć konta");
+      return res
+        .status(409)
+        .send("Użytkownik o podanym emailu lub nazwie już istnieje");
     }
 
     const { user_id, username: returnedUsername } = NEW_USER;
