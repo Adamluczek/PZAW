@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 
   next();
 });
-app.get("/", async (req, res) => {
+app.get("/", (req, res) => {
   let userScore = req.session.userID
     ? data.getUserScoresById(req.session.userID)
     : null;
@@ -50,7 +50,7 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.get("/quiz", async (req, res) => {
+app.get("/quiz", (req, res) => {
   res.render("quiz", {
     title: "Quiz",
     questions: data.showAllQuestions(),
@@ -58,7 +58,7 @@ app.get("/quiz", async (req, res) => {
   });
 });
 
-app.post("/quiz", async (req, res) => {
+app.post("/quiz", (req, res) => {
   const userAnswers = req.body;
   const correctAnswers = data.getCorrectAnswersandQestionId();
   const correctObject = {};
@@ -101,7 +101,7 @@ app.get("/userScore", (req, res) => {
     });
   }
 });
-app.post("/addUserScore", async (req, res) => {
+app.post("/addUserScore", (req, res) => {
   const score = req.session.score;
   const maxScore = req.session.maxScore;
 
@@ -139,7 +139,7 @@ app.post("/addUserScore", async (req, res) => {
   }
 });
 
-app.get("/userScore/:id/edit", async (req, res) => {
+app.get("/userScore/:id/edit", (req, res) => {
   const scoreId = parseInt(req.params.id);
   const userScore = data.getScoreById(scoreId);
 
@@ -147,7 +147,6 @@ app.get("/userScore/:id/edit", async (req, res) => {
     return res.status(404).send("Wynik nie znaleziony");
   }
 
-  // Sprawdzenie: czy to właściciel lub admin (konwersja do number dla bezpiecznego porównania)
   if (
     Number(req.session.userID) !== Number(userScore.user_id) &&
     !req.session.isAdmin
@@ -160,7 +159,7 @@ app.get("/userScore/:id/edit", async (req, res) => {
     userScore: userScore,
   });
 });
-app.post("/userScore/:id/edit", async (req, res) => {
+app.post("/userScore/:id/edit", (req, res) => {
   const scoreId = parseInt(req.params.id);
   const userScore = data.getScoreById(scoreId);
 
@@ -168,7 +167,6 @@ app.post("/userScore/:id/edit", async (req, res) => {
     return res.status(404).send("Wynik nie znaleziony");
   }
 
-  // Sprawdzenie: czy to właściciel lub admin (konwersja do number dla bezpiecznego porównania)
   if (
     Number(req.session.userID) !== Number(userScore.user_id) &&
     !req.session.isAdmin
@@ -183,7 +181,7 @@ app.post("/userScore/:id/edit", async (req, res) => {
   data.updateUserScoreUsername(userScore.user_id, newUsername);
   res.redirect("/");
 });
-app.post("/userScore/:id/delete", async (req, res) => {
+app.post("/userScore/:id/delete", (req, res) => {
   const scoreId = parseInt(req.params.id);
   const userScore = data.getScoreById(scoreId);
 
@@ -191,7 +189,6 @@ app.post("/userScore/:id/delete", async (req, res) => {
     return res.status(404).send("Wynik nie znaleziony");
   }
 
-  // Sprawdzenie: czy to właściciel lub admin (konwersja do number dla bezpiecznego porównania)
   if (
     Number(req.session.userID) !== Number(userScore.user_id) &&
     !req.session.isAdmin
@@ -203,7 +200,7 @@ app.post("/userScore/:id/delete", async (req, res) => {
   res.redirect("/");
 });
 
-app.get("/signup", async (req, res) => {
+app.get("/signup", (req, res) => {
   if (req.session.userID) {
     return res.redirect("/");
   }
@@ -235,7 +232,7 @@ app.post("/signup", async (req, res) => {
     const { user_id, username: returnedUsername } = NEW_USER;
     req.session.userID = user_id;
     req.session.name = returnedUsername;
-    req.session.isAdmin = 0; // Nowy user nigdy nie jest admin
+    req.session.isAdmin = 0;
 
     const redirectAfterAuth = req.session.redirectAfterAuth || "/";
     delete req.session.redirectAfterAuth;

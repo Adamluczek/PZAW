@@ -1,8 +1,8 @@
 <%- include("head_part.ejs")%>
 
-<form action="/signup" method="post" id="rejestracja" required>
+<form action="/signup" method="post" id="rejestracja">
     <label for="gmail">Konto Email</label>
-    <input type="email" name="email" id="gmail">
+    <input type="email" name="email" id="gmail" required>
     <label for="haslo">Hasło</label>
     <input type="password" name="password" id="haslo" required>
     <label for="powtorzHaslo">Powtórz hasło</label>

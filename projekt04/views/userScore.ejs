@@ -6,7 +6,6 @@
 <form action="/addUserScore" method="post">
     <% if (username) { %>
         <p>Zapisujesz wynik jako: <strong><%= username %></strong></p>
-        <input type="hidden" name="username" value="<%= username %>" />
     <% }  %>
 
     <% if (!saved) { %>
