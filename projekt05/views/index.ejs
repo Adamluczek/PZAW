@@ -1,0 +1,123 @@
+<%- include("head_part.ejs")%>
+<%
+  const medals = ["🥇", "🥈", "🥉"];
+  const hasPersonalScores = userScoreIdsSession && userScoreIdsSession.length > 0;
+  const personalBest = hasPersonalScores
+    ? userScoreIdsSession.reduce((best, current) =>
+        current.score / current.maxScore > best.score / best.maxScore ? current : best,
+      )
+    : null;
+%>
+
+<section class="card hero">
+  <div class="hero-content">
+    <span class="pill">NBA quiz game</span>
+    <h1>Witaj w grze</h1>
+    <p>
+      Sprawdź swoją wiedzę o NBA, zdobywaj punkty i awansuj w tabeli
+      liderów.
+    </p>
+    <div class="hero-actions">
+      <a href="/quiz" class="btn btn-accent">🏀 Rozpocznij grę</a>
+      <p class="hero-note">
+        Szybki mecz, natychmiastowy wynik i ranking najlepszych graczy.
+      </p>
+    </div>
+  </div>
+
+  <div class="hero-side">
+    <div class="info-card accent">
+      <% if (personalBest) { %>
+        <strong><%= personalBest.score %>/<%= personalBest.maxScore %></strong>
+        <span>Twój najlepszy wynik z ostatniej godziny</span>
+      <% } else { %>
+        <strong>Twój debiut</strong>
+        <span>Zagraj swój pierwszy mecz i wskocz do rankingu.</span>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<section class="grid">
+  <article class="card">
+    <div class="section-header">
+      <div>
+        <span class="pill">Twoja strefa</span>
+        <h2>Twoje wyniki</h2>
+      </div>
+      
+    </div>
+
+    <% if (hasPersonalScores) { %>
+      <ol class="list">
+        <% userScoreIdsSession.forEach(function(id, index) { %>
+          <li class="list-item">
+            <div class="item-main">
+              <span class="rank">#<%= index + 1 %></span>
+              <div class="item-text">
+                <strong><%= id.username %></strong>
+                <p>
+                  <%= id.score %>/<%= id.maxScore %> punktów ·
+                  <%= Math.round((id.score / id.maxScore) * 100) %>% skuteczności
+                </p>
+              </div>
+            </div>
+
+            <div class="actions actions-end">
+              <a href="/userScore/<%= id.id %>/edit" class="btn btn-small btn-ghost"
+                >Edytuj</a
+              >
+              <form action="/userScore/<%= id.id %>/delete" method="post" class="inline-form" style="display:inline;">
+                <button type="submit" class="btn btn-small btn-danger">Usuń</button>
+              </form>
+            </div>
+          </li>
+        <% }) %>
+      </ol>
+    <% } else { %>
+      <div class="empty-box">
+        <p>
+          Nie masz jeszcze wyników. Zagraj swój pierwszy mecz i wróć po
+          swój rekord.
+        </p>
+        <a href="/quiz" class="btn btn-small btn-accent">Start pierwszego meczu</a>
+      </div>
+    <% } %>
+  </article>
+
+  <article class="card">
+    <div class="section-header">
+      <div>
+        <span class="pill">Tabela liderów</span>
+        <h2>Najlepsze wyniki</h2>
+      </div>
+      <span class="pill pill-muted">Top 10</span>
+    </div>
+
+    <% if (topUsers && topUsers.length > 0) { %>
+      <ol class="list">
+        <% topUsers.forEach(function(user, index) { const isCurrentUser = username && username === user.username; %>
+          <li class="list-item <%= isCurrentUser ? 'highlight' : '' %>">
+            <div class="item-main">
+              <span class="rank"><%= medals[index] || ('#' + (index + 1)) %></span>
+              <span class="avatar"><%= user.username.charAt(0).toUpperCase() %></span>
+              <div class="item-text">
+                <strong>
+                  <%= user.username %><%= isCurrentUser ? ' · To Ty!' : '' %>
+                </strong>
+                <p><%= user.score %>/<%= user.maxScore %> punktów</p>
+              </div>
+            </div>
+
+            <span class="score-tag"><%= Math.round((user.score / user.maxScore) * 100) %>%</span>
+          </li>
+        <% }) %>
+      </ol>
+    <% } else { %>
+      <div class="empty-box">
+        <p>Ranking czeka na pierwszych graczy. Rozpocznij grę i zapisz swój wynik.</p>
+      </div>
+    <% } %>
+  </article>
+</section>
+<%- include("foot_part.ejs")%>

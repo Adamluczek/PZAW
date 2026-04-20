@@ -1,0 +1,21 @@
+<%- include("head_part.ejs")%>
+
+<h1><%= title %></h1>
+
+<form action="/signup" method="post" class="auth-form">
+    <% if (error) { %>
+      <p class="notice notice-error form-message"><%= error %></p>
+    <% } %>
+
+    <label for="gmail">Konto Email</label>
+    <input type="email" name="email" id="gmail" required value="<%= formData?.email || '' %>">
+    <label for="haslo">Hasło</label>
+    <input type="password" name="password" id="haslo" required>
+    <label for="powtorzHaslo">Powtórz hasło</label>
+    <input type="password" name="repeatPassword" id="powtorzHaslo" required>
+    <label for="nazwa">Nazwa wyświetlana</label>
+    <input type="text" name="username" id="nazwa" required maxlength="14" value="<%= formData?.username || '' %>">
+    <button type="submit" class="btn">Zarejestruj</button>
+</form>
+
+<%- include("foot_part.ejs")%>

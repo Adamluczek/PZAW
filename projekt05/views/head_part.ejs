@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <meta name="theme-color" content="#0f172a" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" class="site-brand" aria-label="Strona główna NBA Trivia">
+        <span class="site-brand-icon">🏀</span>
+        <span class="site-brand-text">
+          <strong>NBA Trivia</strong>
+          <small>Quiz dla fanów koszykówki</small>
+        </span>
+      </a>
+
+      <div class="actions actions-end">
+        <% if (!user) { %>
+          <a href="/signup" class="btn btn-small btn-ghost">Rejestracja</a>
+          <a href="/login" class="btn btn-small">Logowanie</a>
+        <% } else { %>
+          <span class="user-badge">👋 <%= username %></span>
+          <% if (isAdmin) { %>
+            <a href="/admin" class="btn btn-small btn-danger">Panel Admina</a>
+          <% } %>
+          <form action="/logout" method="post" class="inline-form" style="display:inline;">
+            <button type="submit" class="btn btn-small btn-ghost">Wyloguj</button>
+          </form>
+        <% } %>
+      </div>
+    </header>
+
+    <main class="page-content">

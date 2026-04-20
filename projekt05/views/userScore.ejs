@@ -1,0 +1,25 @@
+<%- include("head_part.ejs")%>
+
+<h1><%= title %></h1>
+<h3>Twój wynik to <%= score %>/<%= maxScore %></h3>
+
+<% if (error) { %>
+    <p class="notice notice-error centered"><%= error %></p>
+<% } %>
+
+<form action="/addUserScore" method="post">
+    <% if (username) { %>
+        <p>Zapisujesz wynik jako: <strong><%= username %></strong></p>
+    <% }  %>
+
+    <% if (!saved) { %>
+        <button type="submit" class="btn">Dodaj wynik</button>
+    <% } %>
+</form>
+
+<% if (saved) { %>
+    <p class="notice notice-success centered">Wynik zapisany pomyślnie!</p>
+<% } %>
+
+<a href="/" class="btn centered">Wróć do strony głównej</a>
+<%- include("foot_part.ejs")%>

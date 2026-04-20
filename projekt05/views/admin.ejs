@@ -1,0 +1,40 @@
+<%- include("head_part.ejs")%>
+
+<h1>Panel Administratora</h1>
+<p>Wszystkie wyniki użytkowników</p>
+
+<table style="width:100%; border-collapse: collapse; margin-top: 20px;">
+  <thead>
+    <tr style="background-color: #1d428a; color: white;">
+      <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">ID Wyniku</th>
+      <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Użytkownik</th>
+      <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Wynik</th>
+      <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Max</th>
+      <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Procent</th>
+      <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Akcje</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% scores.forEach(function(score) { %>
+      <tr style="border: 1px solid #ddd;">
+        <td style="border: 1px solid #ddd; padding: 12px;"><%= score.id %></td>
+        <td style="border: 1px solid #ddd; padding: 12px;"><%= score.username %></td>
+        <td style="border: 1px solid #ddd; padding: 12px;"><%= score.score %></td>
+        <td style="border: 1px solid #ddd; padding: 12px;"><%= score.maxScore %></td>
+        <td style="border: 1px solid #ddd; padding: 12px;"><%= ((score.score / score.maxScore) * 100).toFixed(1) %>%</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">
+          <a href="/userScore/<%= score.id %>/edit" class="btn btn-small" style="margin: 2px;">Edytuj</a>
+          <form action="/userScore/<%= score.id %>/delete" method="post" class="inline-form" style="display:inline;">
+            <button type="submit" class="btn btn-small" style="margin: 2px; background-color: #c8102e;">Usuń</button>
+          </form>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<div style="margin-top: 20px;">
+  <a href="/" class="btn">Wróć do strony głównej</a>
+</div>
+
+<%- include("foot_part.ejs")%>

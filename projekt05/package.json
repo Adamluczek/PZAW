@@ -1,0 +1,23 @@
+{
+  "name": "projekt05",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch --env-file .env ./index.js",
+    "populate_db": "node database/populatedb.js",
+    "generate_env": "bash utils/generate_env.sh > .env",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "argon2": "^0.44.0",
+    "dotenv": "^17.3.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2"
+  }
+}

@@ -1,0 +1,19 @@
+<%- include("head_part.ejs")%>
+
+<h1><%= title %></h1>
+
+<form action="/login" method="post" class="auth-form">
+    <% if (error) { %>
+      <p class="notice notice-error form-message"><%= error %></p>
+    <% } %>
+
+    <label for="loginEmail">Konto Email</label>
+    <input type="email" name="email" id="loginEmail" required value="<%= formData?.email || '' %>">
+
+    <label for="loginHaslo">Hasło</label>
+    <input type="password" name="password" id="loginHaslo" required>
+
+    <button type="submit" class="btn">Zaloguj</button>
+</form>
+
+<%- include("foot_part.ejs")%>
