@@ -22,7 +22,13 @@ npm install
 
 w terminalu 
 npm run generate_env
-
+Jeśli nie będzie nic w pliku wklej do niego:
+PORT=8000
+SECRET="$/UiYqsfP4/Rc}~bHf5t_lkF3v(Z`W@uhz+]i9;t]e!LsORko/hSZ8ib(.7epN/o"
+PEPPER="dFBE5d38ff2B8b04Ff1ecc90beA6CCcBb11eDc1cc5167dd2CDb1d32Ac467353a"
+ADMIN_USERNAME="admin"
+ADMIN_EMAIL="admin@example.com"
+ADMIN_PASSWORD="H_`:euNo0[6!(n/x4a#u"
 
 4. Stworz i zapelnij baze danych:
 
