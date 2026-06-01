@@ -1,0 +1,12 @@
+Błędy i obszary do poprawy:
+- Nachodzący element: Podczas dodawania wyniku przycisk "dodaj wynik" nakłada się wizualnie na napis: "Zapisujesz wynik jako: (nazwa_użytkownika)"
+- Podwajanie nazwy: W trakcie edycji nazwy występuje podwojenie nicku, trochę bez sensu, niepotrzebne
+- Brak opcji powrotu: Na stronach logowania i rejestracji brakuje przycisku powrotu (obecnie cofnięcie się jest możliwe jedynie po kliknięciu w logo strony)
+- Zmiana nicku: Edycja nazwy użytkownika podczas losowego podejścia powoduje, że wszystkie kolejne quizy są trwale przypisywane do nowo wprowadzonego nicku, a nie do nazwy oryginalnej
+Podsumowanie pozytywne:
++ Interakcja użytkownika jest przyjemna, a zastosowane rozwiązania proste i przejrzyste
++ Wizualnie: Wygląd interfejsu jest estetyczny i poprawny, nie budzi żadnych zastrzeżeń
++ Integralność danych: Proces zapisu danych przebiega bezbłędnie
++ Funkcjonalność: Aplikacja działa poprawnie i stabilnie spełnia swoje główne zadania
++ Kod: zapisany czytelnie, poprawne pliki wykluczone w .gitignore
++ Readme: poprawnie utworzone, przejrzyste, bez zarzutów

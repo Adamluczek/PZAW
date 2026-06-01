@@ -7,6 +7,8 @@
       <p class="notice notice-error form-message"><%= error %></p>
     <% } %>
 
+    <input type="hidden" name="returnTo" value="<%= returnTo || '/' %>">
+
     <label for="gmail">Konto Email</label>
     <input type="email" name="email" id="gmail" required value="<%= formData?.email || '' %>">
     <label for="haslo">Hasło</label>
@@ -18,4 +20,6 @@
     <button type="submit" class="btn">Zarejestruj</button>
 </form>
 
-<%- include("foot_part.ejs")%>
+  <a href="<%= returnTo || '/' %>" class="btn btn-ghost btn-small back-button">Powrót</a>
+
+  <%- include("foot_part.ejs")%>

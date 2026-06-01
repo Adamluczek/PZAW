@@ -246,6 +246,12 @@ p {
   font-size: 0.85rem;
 }
 
+.back-button {
+  width: 20%;
+  display: inline-flex;
+  margin: 0 auto;
+}
+
 .btn-accent {
   background-color: var(--accent);
   color: #111827;

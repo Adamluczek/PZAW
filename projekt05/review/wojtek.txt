@@ -1,0 +1,8 @@
+OGÓLNE
+Aplikacja to quiz o NBA zbudowany w Node.js (Express 5, szablony EJS, SQLite przez wbudowany moduł node:sqlite oraz sesje w osobnej bazie). Strona główna prezentuje ranking, quiz ma czytelną formę wyboru odpowiedzi, a po rozegraniu widać podsumowanie punktów. Po uruchomieniu na Node 22 przepływy działają spójnie: quiz, podgląd wyniku, logowanie administratora i panel /admin oraz przekierowanie z /userScore bez sesji quizowej na /quiz.
+
+SUGESTIE POPRAWEK
+W pliku package.json warto dodać pole "engines": { "node": ">=22" } (lub równoważny zapis), żeby od razu komunikować wymaganą wersję Node — obecnie README sugeruje zwykłe npm install, a domyślne środowiska z Node 20 LTS kończą się błędem. W Readme po sklonowaniu repozytorium PZAW ścieżka powinna brzmieć np. cd PZAW/projekt05 zamiast samego cd projekt05. W interfejsie można ujednolicić język (np. tytuły „User Score” obok polskich nagłówków) i rozważyć usunięcie z publicznej dokumentacji przykładowych wartości sekretów na rzecz opisu „ustaw własne wartości”.
+
+BŁĘDY KRYTYCZNE PRZY TESTOWANIU
+Na Node.js v20.19.2 polecenie npm run populate_db kończy się błędem ERR_UNKNOWN_BUILTIN_MODULE: node:sqlite — bez Node w wersji obsługującej ten moduł nie da się zainicjować bazy ani uruchomić serwera zgodnie z instrukcją. Przy testach HTTP na Node 22 (serwer na porcie 8001 z powodu zajętego 8000 przez inny proces) nie stwierdzono awarii funkcjonalnych: strony głównej i quizu, zapisu wyniku dla zalogowanego admina, odpowiedzi 401 przy zapisie bez logowania ani blokady /admin dla nieuprawnionych.

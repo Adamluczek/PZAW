@@ -7,6 +7,8 @@
       <p class="notice notice-error form-message"><%= error %></p>
     <% } %>
 
+    <input type="hidden" name="returnTo" value="<%= returnTo || '/' %>">
+
     <label for="loginEmail">Konto Email</label>
     <input type="email" name="email" id="loginEmail" required value="<%= formData?.email || '' %>">
 
@@ -15,5 +17,7 @@
 
     <button type="submit" class="btn">Zaloguj</button>
 </form>
+
+  <a href="<%= returnTo || '/' %>" class="btn btn-ghost btn-small back-button">Powrót</a>
 
 <%- include("foot_part.ejs")%>

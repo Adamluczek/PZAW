@@ -3,9 +3,20 @@ import argon2 from "argon2";
 import dotenv from "dotenv";
 dotenv.config();
 const PEPPER = process.env.PEPPER;
-const HASH_PARAMS = {
-  secret: Buffer.from(PEPPER, "hex"),
-};
+const HASH_PARAMS = {};
+if (PEPPER) {
+  try {
+    HASH_PARAMS.secret = Buffer.from(PEPPER, "hex");
+  } catch (err) {
+    console.warn(
+      "PEPPER environment variable is not valid hex; proceeding without hash secret.",
+    );
+  }
+} else {
+  console.warn(
+    "PEPPER environment variable is not set; argon2 will run without additional secret.",
+  );
+}
 
 const db_path = "./db.sqlite";
 const db = new DatabaseSync(db_path);
@@ -41,6 +52,13 @@ CREATE TABLE IF NOT EXISTS UserScores (
 ) STRICT;
 
 `);
+
+// Ensure UserScores has a username column to allow per-score display names
+try {
+  db.exec("ALTER TABLE UserScores ADD COLUMN username TEXT;");
+} catch (err) {
+  // ignore if column already exists or ALTER TABLE not applicable
+}
 const prepared_queries = {
   get_all_questions: db.prepare("SELECT * FROM Questions;"),
 
@@ -67,11 +85,15 @@ const prepared_queries = {
   ),
 
   get_user_score_by_id: db.prepare(
-    "SELECT UserScores.id, UserScores.user_id, UserScores.score, UserScores.maxScore, Users.username FROM UserScores JOIN Users ON Users.user_id = UserScores.user_id WHERE UserScores.user_id = ? ORDER BY UserScores.id DESC;",
+    "SELECT UserScores.id, UserScores.user_id, UserScores.score, UserScores.maxScore, COALESCE(UserScores.username, Users.username) AS username FROM UserScores LEFT JOIN Users ON Users.user_id = UserScores.user_id WHERE UserScores.user_id = ? ORDER BY UserScores.id DESC;",
   ),
 
   update_user_score_username: db.prepare(
     "UPDATE Users SET username = ? WHERE user_id = ?;",
+  ),
+
+  update_user_score_displayname: db.prepare(
+    "UPDATE UserScores SET username = ? WHERE id = ?;",
   ),
 
   delete_user_score_by_id: db.prepare("DELETE FROM UserScores WHERE id = ?;"),
@@ -93,11 +115,11 @@ const prepared_queries = {
   ),
 
   get_score_by_id: db.prepare(
-    "SELECT UserScores.id, UserScores.user_id, UserScores.score, UserScores.maxScore, Users.username FROM UserScores JOIN Users ON Users.user_id = UserScores.user_id WHERE UserScores.id = ?;",
+    "SELECT UserScores.id, UserScores.user_id, UserScores.score, UserScores.maxScore, COALESCE(UserScores.username, Users.username) AS username FROM UserScores LEFT JOIN Users ON Users.user_id = UserScores.user_id WHERE UserScores.id = ?;",
   ),
 
   get_all_scores_with_details: db.prepare(
-    "SELECT UserScores.id, UserScores.user_id, UserScores.score, UserScores.maxScore, Users.username FROM UserScores JOIN Users ON Users.user_id = UserScores.user_id ORDER BY UserScores.id DESC;",
+    "SELECT UserScores.id, UserScores.user_id, UserScores.score, UserScores.maxScore, COALESCE(UserScores.username, Users.username) AS username FROM UserScores LEFT JOIN Users ON Users.user_id = UserScores.user_id ORDER BY UserScores.id DESC;",
   ),
 
   get_user_full: db.prepare(
@@ -127,7 +149,7 @@ function addUserScore(user_id, score, maxScore) {
 }
 function topTenUsers() {
   const stmt = db.prepare(
-    "SELECT username, score, maxScore FROM UserScores JOIN Users ON Users.user_id = UserScores.user_id ORDER BY score * 1.0 / maxScore DESC LIMIT 10;",
+    "SELECT UserScores.user_id, COALESCE(UserScores.username, Users.username) AS username, UserScores.score, UserScores.maxScore FROM UserScores LEFT JOIN Users ON Users.user_id = UserScores.user_id ORDER BY UserScores.score * 1.0 / UserScores.maxScore DESC LIMIT 10;",
   );
   return stmt.all();
 }
@@ -139,6 +161,12 @@ function getUserScoresById(userID) {
 }
 function updateUserScoreUsername(userId, newUsername) {
   return prepared_queries.update_user_score_username.run(newUsername, userId);
+}
+function updateUserScoreDisplayName(scoreId, newUsername) {
+  return prepared_queries.update_user_score_displayname.run(
+    newUsername,
+    scoreId,
+  );
 }
 function deleteUserScoreById(userId) {
   return prepared_queries.delete_user_score_by_id.run(userId);
@@ -201,6 +229,7 @@ export default {
   getUsersScores,
   getUserScoresById,
   updateUserScoreUsername,
+  updateUserScoreDisplayName,
   deleteUserScoreById,
   createUser,
   validatePassword,

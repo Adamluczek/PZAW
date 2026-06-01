@@ -9,7 +9,7 @@ Aby uruchomic projekt:
 
 w terminalu 
 git clone https://github.com/Adamluczek/PZAW.git
-cd projekt05
+cd PZAW/projekt05
 
 
 2. Zainstaluj zaleznosci:
@@ -22,13 +22,14 @@ npm install
 
 w terminalu 
 npm run generate_env
-Jeśli nie będzie nic w pliku wklej do niego:
+Skrypt wygeneruje plik `.env` z losowymi wartościami. Jeśli wolisz ustawić własne wartości, utwórz plik `.env` z następującymi zmiennymi (wypełnij wartości samodzielnie):
+
 PORT=8000
-SECRET="$/UiYqsfP4/Rc}~bHf5t_lkF3v(Z`W@uhz+]i9;t]e!LsORko/hSZ8ib(.7epN/o"
-PEPPER="dFBE5d38ff2B8b04Ff1ecc90beA6CCcBb11eDc1cc5167dd2CDb1d32Ac467353a"
-ADMIN_USERNAME="admin"
-ADMIN_EMAIL="admin@example.com"
-ADMIN_PASSWORD="H_`:euNo0[6!(n/x4a#u"
+SECRET=your-session-secret-here
+PEPPER=your-pepper-hex-here
+ADMIN_USERNAME=admin
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=your-admin-password-here
 
 4. Stworz i zapelnij baze danych:
 

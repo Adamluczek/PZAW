@@ -78,6 +78,7 @@ app.get("/", (req, res) => {
     title: "NBA Trivia game",
     topUsers: data.topTenUsers(),
     userScoreIdsSession: userScore,
+    currentUserId: req.session.userID || null,
   });
 });
 
@@ -113,12 +114,33 @@ app.post("/quiz", (req, res) => {
   delete req.session.pendingScore;
 
   res.render("score", {
-    title: "Score",
+    title: "Wynik",
     questions: data.showAllQuestions(),
     text_answers: data.getCorrectAnswers(),
     correctQuestions: correctQuestionIds,
     score: score,
     maxScore: maxScore,
+  });
+});
+
+app.get("/authRequired", (req, res) => {
+  const pendingScore = req.session.pendingScore || {
+    score: req.session.score,
+    maxScore: req.session.maxScore,
+  };
+
+  if (
+    !pendingScore ||
+    pendingScore.score == null ||
+    pendingScore.maxScore == null
+  ) {
+    return res.redirect("/quiz");
+  }
+
+  return res.render("authRequired", {
+    title: "Zaloguj się",
+    score: pendingScore.score,
+    maxScore: pendingScore.maxScore,
   });
 });
 
@@ -134,7 +156,7 @@ app.get("/userScore", (req, res) => {
   delete req.session.scoreSaveError;
 
   return res.render("userScore", {
-    title: "User Score",
+    title: "Twój wynik",
     score,
     maxScore,
     saved: Boolean(req.session.scoreSaved),
@@ -155,11 +177,7 @@ app.post("/addUserScore", (req, res) => {
     req.session.pendingScore = { score, maxScore };
     req.session.scoreSaved = false;
 
-    return res.status(401).render("authRequired", {
-      title: "Zaloguj się, aby zapisać wynik",
-      score,
-      maxScore,
-    });
+    return res.redirect("/authRequired");
   }
 
   const user = req.session.userID;
@@ -170,7 +188,7 @@ app.post("/addUserScore", (req, res) => {
 
     if (!result || !result.lastInsertRowid) {
       return res.status(500).render("userScore", {
-        title: "User Score",
+        title: "Twój wynik",
         score,
         maxScore,
         saved: false,
@@ -184,7 +202,7 @@ app.post("/addUserScore", (req, res) => {
     delete req.session.scoreSaveError;
 
     return res.render("userScore", {
-      title: "User Score",
+      title: "Twój wynik",
       score,
       maxScore,
       saved: true,
@@ -194,7 +212,7 @@ app.post("/addUserScore", (req, res) => {
   } catch (err) {
     console.error("Błąd podczas zapisywania wyniku:", err);
     return res.status(500).render("userScore", {
-      title: "User Score",
+      title: "Twój wynik",
       score,
       maxScore,
       saved: false,
@@ -243,7 +261,8 @@ app.post("/userScore/:id/edit", (req, res) => {
   if (!newUsername || newUsername.trim().length === 0) {
     return res.status(400).send("Nazwa nie może być pusta");
   }
-  data.updateUserScoreUsername(userScore.user_id, newUsername);
+  // Update only the display name for this specific score (doesn't change account username)
+  data.updateUserScoreDisplayName(scoreId, newUsername);
   res.redirect("/");
 });
 app.post("/userScore/:id/delete", (req, res) => {
@@ -273,6 +292,7 @@ app.get("/signup", (req, res) => {
   return res.render("register", {
     title: "Rejestracja",
     error: null,
+    returnTo: req.query.returnTo || "/",
     formData: {
       email: "",
       username: "",
@@ -292,6 +312,7 @@ app.post("/signup", async (req, res) => {
       return res.status(400).render("register", {
         title: "Rejestracja",
         error: "Wszystkie pola są wymagane.",
+        returnTo: req.body.returnTo || "/",
         formData,
       });
     }
@@ -300,6 +321,7 @@ app.post("/signup", async (req, res) => {
       return res.status(400).render("register", {
         title: "Rejestracja",
         error: "Hasła nie są identyczne.",
+        returnTo: req.body.returnTo || "/",
         formData,
       });
     }
@@ -310,6 +332,7 @@ app.post("/signup", async (req, res) => {
       return res.status(409).render("register", {
         title: "Rejestracja",
         error: "Użytkownik o podanym emailu lub nazwie już istnieje.",
+        returnTo: req.body.returnTo || "/",
         formData,
       });
     }
@@ -337,6 +360,7 @@ app.post("/signup", async (req, res) => {
     return res.status(500).render("register", {
       title: "Rejestracja",
       error: "Błąd serwera. Spróbuj ponownie.",
+      returnTo: req.body.returnTo || "/",
       formData,
     });
   }
@@ -350,6 +374,7 @@ app.get("/login", (req, res) => {
   return res.render("login", {
     title: "Logowanie",
     error: null,
+    returnTo: req.query.returnTo || "/",
     formData: {
       email: "",
     },
@@ -366,6 +391,7 @@ app.post("/login", async (req, res) => {
     return res.status(400).render("login", {
       title: "Logowanie",
       error: "Email i hasło są wymagane.",
+      returnTo: req.body.returnTo || "/",
       formData,
     });
   }
@@ -377,6 +403,7 @@ app.post("/login", async (req, res) => {
       return res.status(401).render("login", {
         title: "Logowanie",
         error: "Nieprawidłowy email lub hasło.",
+        returnTo: req.body.returnTo || "/",
         formData,
       });
     }
@@ -405,6 +432,7 @@ app.post("/login", async (req, res) => {
     return res.status(500).render("login", {
       title: "Logowanie",
       error: "Błąd serwera.",
+      returnTo: req.body.returnTo || "/",
       formData,
     });
   }

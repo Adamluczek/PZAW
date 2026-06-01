@@ -96,20 +96,20 @@
 
     <% if (topUsers && topUsers.length > 0) { %>
       <ol class="list">
-        <% topUsers.forEach(function(user, index) { const isCurrentUser = username && username === user.username; %>
+        <% topUsers.forEach(function(scoreUser, index) { const isCurrentUser = currentUserId && currentUserId === scoreUser.user_id; %>
           <li class="list-item <%= isCurrentUser ? 'highlight' : '' %>">
             <div class="item-main">
               <span class="rank"><%= medals[index] || ('#' + (index + 1)) %></span>
-              <span class="avatar"><%= user.username.charAt(0).toUpperCase() %></span>
+              <span class="avatar"><%= scoreUser.username.charAt(0).toUpperCase() %></span>
               <div class="item-text">
                 <strong>
-                  <%= user.username %><%= isCurrentUser ? ' · To Ty!' : '' %>
+                  <%= scoreUser.username %><%= isCurrentUser ? ' · To Ty!' : '' %>
                 </strong>
-                <p><%= user.score %>/<%= user.maxScore %> punktów</p>
+                <p><%= scoreUser.score %>/<%= scoreUser.maxScore %> punktów</p>
               </div>
             </div>
 
-            <span class="score-tag"><%= Math.round((user.score / user.maxScore) * 100) %>%</span>
+            <span class="score-tag"><%= Math.round((scoreUser.score / scoreUser.maxScore) * 100) %>%</span>
           </li>
         <% }) %>
       </ol>
